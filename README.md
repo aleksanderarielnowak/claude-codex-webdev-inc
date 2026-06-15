@@ -1,4 +1,4 @@
-# claude-codex-web-development-company
+# claude-codex-webdev-inc
 
 Wtyczka workflow (zalążek): **wizytówka Google (GMB) biznesu bez strony → gotowa, jakościowa lokalna strona WordPress**, w modelu Synapse (Claude = mózg, Codex = ręce).
 

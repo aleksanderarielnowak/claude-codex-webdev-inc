@@ -1,6 +1,6 @@
 # gmb-workflow — pakiet workflow „GMB → strona WordPress"
 
-Operacyjny zestaw dla pipeline'u: wizytówka Google biznesu bez strony → gotowa, jakościowa lokalna strona WP. Zalążek wtyczki `claude-codex-web-development-company`.
+Operacyjny zestaw dla pipeline'u: wizytówka Google biznesu bez strony → gotowa, jakościowa lokalna strona WP. Zalążek wtyczki `claude-codex-webdev-inc`.
 
 ## Pliki
 | Plik | Co to | Kiedy |
@@ -24,7 +24,7 @@ Operacyjny zestaw dla pipeline'u: wizytówka Google biznesu bez strony → gotow
 - [ ] Skrypt QA headless (Playwright) z asercji `qa-checklist.md`
 - [ ] Site-szablon w Local do clone'a (stos z `wp-base-blueprint.json`)
 - [ ] Skill `web-design-trends` (self-updating research designu — sekcja 7 master promptu)
-- [ ] Spakowanie w plugin `claude-codex-web-development-company`
+- [ ] Spakowanie w plugin `claude-codex-webdev-inc`
 
 ## Powiązane
 - Protokół mózg/ręce: plugin `claude-codex-synapse` (`skills/codex-collab/SKILL.md`, `LEARNINGS.md`).
