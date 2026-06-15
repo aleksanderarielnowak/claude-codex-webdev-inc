@@ -1,0 +1,30 @@
+{
+  "$schema": "https://playground.wordpress.net/blueprint-schema.json",
+  "meta": {
+    "title": "GMB-to-site base stack",
+    "description": "Bazowy stos pod pipeline GMB->WP. Kanoniczne zrodlo prawdy o wtyczkach/motywie. Uzywany 1) do szybkich testow przez wp-playground, 2) jako szablon do clone'a site'a w Local, 3) tlumaczony na skrypt WP-CLI (sekcja w GMB-TO-SITE-WORKFLOW.md).",
+    "author": "claude-codex-synapse"
+  },
+  "landingPage": "/",
+  "preferredVersions": { "php": "8.2", "wp": "latest" },
+  "phpExtensionBundles": ["kitchen-sink"],
+  "features": { "networking": true },
+  "steps": [
+    { "step": "login", "username": "admin", "password": "password" },
+    { "step": "installTheme", "themeData": { "resource": "wordpress.org/themes", "slug": "hello-elementor" }, "options": { "activate": true } },
+    { "step": "installPlugin", "pluginData": { "resource": "wordpress.org/plugins", "slug": "elementor" }, "options": { "activate": true } },
+    { "step": "installPlugin", "pluginData": { "resource": "wordpress.org/plugins", "slug": "header-footer-elementor" }, "options": { "activate": true } },
+    { "step": "installPlugin", "pluginData": { "resource": "wordpress.org/plugins", "slug": "happy-elementor-addons" }, "options": { "activate": true } },
+    { "step": "installPlugin", "pluginData": { "resource": "wordpress.org/plugins", "slug": "essential-addons-for-elementor" }, "options": { "activate": true } },
+    { "step": "installPlugin", "pluginData": { "resource": "wordpress.org/plugins", "slug": "contact-form-7" }, "options": { "activate": true } },
+    { "step": "installPlugin", "pluginData": { "resource": "wordpress.org/plugins", "slug": "wordpress-seo" }, "options": { "activate": true } },
+    { "step": "installPlugin", "pluginData": { "resource": "wordpress.org/plugins", "slug": "wp-smushit" }, "options": { "activate": true } },
+    { "step": "installPlugin", "pluginData": { "resource": "wordpress.org/plugins", "slug": "wp-google-maps" }, "options": { "activate": true } },
+    { "step": "setSiteOptions", "options": { "permalink_structure": "/%postname%/", "blogname": "{{BRAND_NAME}}", "blogdescription": "{{BRAND_TAGLINE}}" } }
+  ],
+  "_notes": {
+    "wp-cli-equivalent": "Dla Local (Site Shell) ten sam stos przez: wp theme install hello-elementor --activate; wp plugin install elementor header-footer-elementor happy-elementor-addons essential-addons-for-elementor contact-form-7 wordpress-seo wp-smushit wp-google-maps --activate; wp rewrite structure '/%postname%/'.",
+    "wszystkie-wtyczki": "darmowe na wordpress.org (brak premium = blueprint dziala bez kluczy).",
+    "premium-opcjonalnie": "Slider Revolution / Elementor Pro tylko jesli user ma licencje - poza blueprintem."
+  }
+}
