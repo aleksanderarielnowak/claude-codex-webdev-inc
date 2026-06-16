@@ -78,6 +78,15 @@ Każdy playbook: **Home eksponuje** · **Podstrony (6)** · **Design** · **Sekc
 - **Design:** czysto, produkt-first, siatki, wyraźne CTA „do koszyka/zapytaj".
 - **SEO:** „[produkt/kategoria] [miasto]".
 
+## 🔧 Wynajem / wypożyczalnia sprzętu / usługa lokalna (samoobsługowa)
+> Dodane po przebiegu Kärcher Koszalin (wypożyczalnia odkurzaczy piorących) — wcześniej brak pasującego playbooka.
+- **Home eksponuje:** jasny CENNIK (stawka za dobę/weekend) + „jak to działa" w 3 krokach + dowód efektu (przed/po) + szybki telefon.
+- **Podstrony:** Start · Cennik/Stawki · Sprzęt/Oferta · Jak to działa/Instrukcja · Galeria efektów · Kontakt+Rezerwacja. (+ Aktualności jako standard)
+- **Design:** praktycznie, wysoki kontrast, mocne CTA telefoniczne, realne ikony (sprzęt/powierzchnie), industrialnie-czysto.
+- **Konwersja:** sticky „Zadzwoń teraz" (bez numeru w etykiecie), tabela stawek „co w cenie", FAQ (kaucja/odbiór/zwrot), before/after, mapa odbioru.
+- **SEO:** „wypożyczalnia/wynajem [sprzęt] [miasto]", „[czynność] wynajem sprzętu [miasto]", frazy how-to (silosy blogowe = Aktualności).
+- **Zdjęcia (AI):** hero sprzęt w akcji, przed/po, produkt na białym tle, detal użycia, powierzchnie (auto/materac/dywan).
+
 ---
 
 ## Reguła doboru (gdy branża nietypowa)

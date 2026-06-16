@@ -3,6 +3,7 @@
 > Samowystarczalny protokół dla pipeline "wizytówka Google → gotowa lokalna strona WP".
 > Rola: **Claude = mózg (planuje, dyryguje, weryfikuje). Codex = ręce (fetch, obrazy, build, WP-CLI).**
 > Cel: najwyższa jakość strony przy minimalnym koszcie tokenów Claude. Podział pracy **~75% Codex / 25% Claude**.
+> 🔧 **Twarde recepty z boju (CZYTAJ NAJPIERW przy buildzie):** `gmb-workflow/HARDENED-RECIPES.md` + gotowce `gmb-workflow/assets/`. To największy skok prędkości (z ~2 h debugu → ~30–40 min).
 
 ---
 
@@ -41,21 +42,27 @@ INPUT: wizytówka GMB jako **screen LUB link**, podawana w każdym przebiegu.
 ### Faza 2 — ŚRODOWISKO (Codex, ale na PRAWDZIWYM site Local)
 > **KRYTYCZNE — nie powtórzyć błędu:** NIE serwować przez `php -S`/`router.php` i NIE podrzucać folderu do `Local Sites` bez rejestracji. Jednowątkowy `php -S` zabija edytor Elementora (biała karta) i ładowanie wielu obrazów (404 pod współbieżnością), a niezarejestrowany site nie pojawia się w aplikacji Local.
 - **Site MUSI być prawdziwym site'em Local** (nginx + php-fpm + MySQL + domena `.local` + SSL), widocznym w aplikacji.
-- Local nie ma publicznego CLI do tworzenia site'ów → **user tworzy pusty site w aplikacji Local** (nazwa, PHP 8.2+, najnowszy WP) — to ~1 min. Potem Codex pracuje przez **Site Shell** Local (ma prawdziwe `wp` CLI) na realnym stacku.
-- Codex: instalacja motywu + wtyczek przez WP-CLI, permalinki `/%postname%/`, czysta instalacja.
-- Artefakt: `env.json` (site_url `.local`, admin login/hasło, wp_cli przez Site Shell, wersje).
-- Skille WP do oparcia ops: `wp-wpcli-and-ops`, `wp-playground` (do szybkich testów), `blueprint`, `wp-rest-api`.
+- Local nie ma publicznego CLI do tworzenia site'ów → **user tworzy pusty site w aplikacji Local** (nazwa, PHP 8.2+, najnowszy WP) — to ~1 min.
+- **WP-CLI odpala CLAUDE, nie Codex** (KLUCZOWA korekta v2): sandbox `codex exec` na Windows+Local NIE wykonuje `php.exe`/`wp.cmd` („Odmowa dostępu") — patrz `gmb-workflow/HARDENED-RECIPES.md` §1. Claude buduje wrapper wp-cli (php-cli.ini + wp.cmd + wp-cli-db.php — §2) i nim provisionuje: motyw + wtyczki, permalinki `/%postname%/`.
+- **Od razu HTTPS** (§3): `wp option update home/siteurl https://…` + `wp search-replace http→https --all-tables` — inaczej zdjęcia po http = mixed-content (puste u usera). **WP_DEBUG/eksperyment ikon** (§4): wyłącz `elementor_experiment-e_font_icon_svg`, ustaw WP_DEBUG_DISPLAY=false.
+- Artefakt: `env.json` (site_url https `.local`, admin, ścieżki wp.cmd, mysqlPort, wersje).
+- Skille WP do oparcia ops: `wp-wpcli-and-ops`, `wp-playground`, `blueprint`, `wp-rest-api`.
 
 ### Faza 3 — DESIGN (Claude planuje)
-- **Struktura: 5-10 podstron, domyślnie 6 — ale MAKSYMALNIE jakościowe i UNIKALNE, dobrane pod TYP biznesu** (z Fazy 1). Mało podstron = każda musi być dopracowana, nie generyczna. Typ biznesu MA przełożenie na design (gastro = menu-first; wykonawca = portfolio realizacji; itd.).
-- Zawsze: strona Kontakt z formularzem (CF7) + mapa.
+- **Struktura: 5-10 podstron GOTOWYCH (Claude decyduje ile) — MAKSYMALNIE jakościowe i UNIKALNE, dobrane pod TYP biznesu** (z Fazy 1). Mało podstron = każda dopracowana, nie generyczna. Typ biznesu MA przełożenie na design.
+- **Strony ofertowe** wolno tworzyć jako **placeholder (pusty publish) wpięty w nawigację** — treść dojdzie później.
+- **ZAWSZE „Aktualności" (blog) + 3 wpisy z samym tytułem jako placeholder**, wpięte w menu. Strona Aktualności = ZAPROJEKTOWANA (banner + kafelki wpisów przez mu-plugin `[kw_aktualnosci]`), `page_for_posts=0` — NIE gołe archiwum motywu. Patrz `HARDENED-RECIPES.md` §11.
+- **CTA bez numerów telefonu** w etykietach („Zadzwoń teraz", nie „Zadzwoń 880…"); link `tel:` zostaje.
+- **Mobile = standard** („ma być zajebiście"): brandowy hamburger, pełnoszerokie CTA, typografia/paddingi responsywne, gridy stackują (§12). Weryfikuj zrzutem 390px.
+- Zawsze: strona Kontakt z formularzem (CF7) + mapa (Google embed iframe bez klucza — §9).
 - Branding: paleta (z logo/branży), Google Fonts (np. serif display + sans), system sekcji.
 - Artefakt: `design-spec.json` (paleta, fonty, per-strona sekcje, briefy zdjęć AI, guardrails).
 
-### Faza 4 — WYKONANIE (Codex buduje, Claude weryfikuje per etap)
-**Etap A — Fundament:** motyw + wtyczki + header/footer (przez builder, NIE hack) + globalny branding (Kit) + puste strony. → **Claude weryfikuje wizualnie.**
-**Etap B — Strony:** treść 6 podstron, copy brandowane PL, zdjęcia AI, full-width, animacje. → **Claude weryfikuje wizualnie (screeny przescrollowane).**
-**Etap C — SEO + finisz:** Yoast (tytuły/meta/schema/keywords), mapa, optymalizacja obrazów. → weryfikacja.
+### Faza 4 — WYKONANIE (podział AUTHOR/APPLY — patrz HARDENED-RECIPES §5)
+> v2: Codex AUTORUJE pliki na dysk (z placeholderami `__IMG_*__`/`__CF7__`/`__MAP__`), CLAUDE APLIKUJE przez wp-cli + deterministyczny `postprocess-fixes.js` (Codex sandbox nie odpala php/wp). Weryfikacja per etap: NAJPIERW HTTP strukturalnie, wizualnie na końcu/batch.
+**Etap A — Fundament:** Claude przez wp-cli: motyw + wtyczki + header/footer (HFE, NIE hack) + Kit + puste strony. → weryfikacja wizualna.
+**Etap B — Strony:** Codex autoruje `elementor/<slug>.json` (batch 6 stron, copy PL, placeholdery) → Claude: import zdjęć→`media.json` → `postprocess-fixes.js` (FA5/gridy/hero/przyciski/CTA/mobile) → `apply-pages.php` → `base-additions.css` + mu-plugin → flush. → weryfikacja (HTTP + screeny).
+**Etap C — SEO + finisz:** Yoast (tytuły/meta/schema/keywords), optymalizacja obrazów (Smush). → weryfikacja.
 
 ---
 
@@ -145,6 +152,8 @@ INPUT: wizytówka GMB jako **screen LUB link**, podawana w każdym przebiegu.
 Ścieżka krytyczna z optymalizacją: clone site (30s) → research → wypełnienie sekcji z biblioteki (równolegle) → QA headless → estetyczny przegląd. Zdjęcia w tle nie blokują.
 
 ## ARTEFAKTY WORKFLOW (folder `gmb-workflow/`)
+- **`HARDENED-RECIPES.md`** — ⭐ twarde recepty z boju (wp-cli bootstrap, https, FA5, gridy, mapy, mobile, author/apply). CZYTAJ NAJPIERW.
+- **`assets/`** — gotowce: `postprocess-fixes.js` (deterministyczne fixy), `apply-pages.php` (aplikator), `base-additions.css` (bazowy CSS), `mu-kw-aktualnosci.php` (shortcode Aktualności).
 - `wp-base-blueprint.json` — bazowy stos (blueprint/clone/WP-CLI)
 - `section-library.md` — biblioteka sparametryzowanych sekcji + kompozycje
 - `qa-checklist.md` — automatyczna bramka QA headless

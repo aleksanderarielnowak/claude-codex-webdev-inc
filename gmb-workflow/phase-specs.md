@@ -2,6 +2,12 @@
 
 > Szablony do odpalenia. Claude wypełnia `{{...}}` per projekt i wysyła do Codexa. Każdy spec NAZYWA narzędzie i ZABRANIA hacków (anty-improwizacja). Każdy wymaga structured output `ready/issues`.
 
+> ⚠️ **KOREKTY v2 (przebieg Kärcher 2026-06-17 — patrz `HARDENED-RECIPES.md`):**
+> 1. **Fetch (Faza 1):** ZAWSZE `-c sandbox_workspace_write.network_access=true` na CLI + twarda tożsamość + zakaz reużycia cudzych folderów + nowy slug (bez tego sieć jest cicho blokowana → Codex podpina dane innego klienta i raportuje `ready:true`).
+> 2. **Środowisko (Faza 2):** WP-CLI odpala **CLAUDE** (bootstrap §2), NIE Codex przez Site Shell — sandbox `codex exec` nie wykonuje php/wp. Od razu HTTPS (§3) + wyłącz eksperyment ikon/WP_DEBUG (§4).
+> 3. **Strony (Faza 4B):** podział **author/apply** — Codex autoruje `elementor/<slug>.json` z placeholderami, Claude aplikuje (`assets/postprocess-fixes.js` → `assets/apply-pages.php`). `--output-schema` jest STRICT (luźny → 400); przy luźnym kształcie zdejmij flagę i wymuś JSON w prompcie.
+> 4. **Zawsze:** Aktualności (zaprojektowane, nie archiwum) + 3 wpisy; CTA bez numerów; mobile dopracowany; mapa = Google embed iframe (bez klucza).
+
 ---
 
 ## FAZA 1 — RESEARCH (Codex fetch)
