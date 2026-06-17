@@ -8,6 +8,9 @@ Gotowce, które skracają build z ~2 h debugu do ~30–40 min. Pełny kontekst: 
 | `apply-pages.php` | Podstawia placeholdery (`__IMG_*__`, `__CF7_SHORTCODE__`, `__MAP_SHORTCODE__`) z `media.json` + shortcody, zapisuje `_elementor_data` jako string z `wp_slash`. `wp eval-file apply-pages.php`. | Claude |
 | `base-additions.css` | Bazowy globalny CSS (siatki kart, CF7, kafelki Aktualności, mobile header/menu, zabezpieczenia). Wgraj przez `wp_update_custom_css_post`. Podmień kolory marki. | Claude |
 | `mu-kw-aktualnosci.php` | mu-plugin: shortcode `[kw_aktualnosci]` = siatka kafelków wpisów (strona Aktualności jako design, nie archiwum). Wgraj do `wp-content/mu-plugins/`. | Claude |
+| `polish/polish.css` | Warstwa „szlifowanie": animacje reveal, hovery (karty/kafelki/cennik), warianty guzików `--lg/--arrow`, countupy `.jan-stats`, hero podstron `page-id-N`. Patrz `../phase-szlifowanie.md`. | Claude (enqueue) |
+| `polish/polish.js` | Vanilla JS: IntersectionObserver reveal + countup `[data-target]/[data-suffix]`, reduced-motion. | Claude (enqueue) |
+| `polish/build-stats.php` | Idempotentny builder sekcji liczników do `_elementor_data`. `wp eval-file`. | Claude |
 
 **Kolejność:** Codex autoruje `elementor/<slug>.json` z placeholderami → Claude: import zdjęć→`media.json` → `postprocess-fixes.js` → `apply-pages.php` → wgraj `base-additions.css` + mu-plugin → flush → weryfikacja (HTTP strukturalnie, potem wizualnie).
 

@@ -12,6 +12,7 @@ Operacyjny zestaw dla pipeline'u: wizytówka Google biznesu bez strony → gotow
 | **`section-library.md`** | Sparametryzowane szablony sekcji + kompozycje (przyspieszenie buildu) | Faza 4B |
 | **`wp-base-blueprint.json`** | Bazowy stos wtyczek/motywu (blueprint/clone/WP-CLI) | Faza 2 |
 | **`qa-checklist.md`** | Automatyczna bramka QA headless (asercje) | po każdym etapie |
+| **`phase-szlifowanie.md`** | Opcjonalna runda dopieszczenia: grafiki podstron, animacje reveal, countupy, hovery, warianty guzików (wzorce w `assets/polish/`) | po akceptacji Fazy 4 |
 
 ## Filozofia
 - **Claude = mózg** (plan, dyrygowanie, weryfikacja ~25%), **Codex = ręce** (fetch, obrazy, build ~75%).
