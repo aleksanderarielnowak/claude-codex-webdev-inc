@@ -1,6 +1,6 @@
 # claude-codex-webdev-inc
 
-Wtyczka workflow (zalążek): **wizytówka Google (GMB) biznesu bez strony → gotowa, jakościowa lokalna strona WordPress**, w modelu Synapse (Claude = mózg, Codex = ręce).
+Wtyczka workflow (zalążek): **dowolne źródło o firmie (strona WWW, social, GMB, KRS/NIP/REGON albo sama nazwa + lokalizacja) → research w sieci → gotowa, jakościowa lokalna strona WordPress**, w modelu Synapse (Claude = mózg, Codex = ręce).
 
 > Status: **seed / dokumentacja workflow**. Komponenty wykonawcze (golden-build `sections/*.json`, skrypt QA Playwright, site-szablon Local, skill `web-design-trends`) dochodzą przy działającym site + tokenach Codexa. Patrz `gmb-workflow/README.md` → TODO.
 

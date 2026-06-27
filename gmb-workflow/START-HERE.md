@@ -1,4 +1,4 @@
-# START HERE — jak odpalić przebieg GMB → strona
+# START HERE — jak odpalić przebieg GMB/dowolne źródło → strona
 
 > Jeden krok ręczny po Twojej stronie (Local nie ma CLI do tworzenia site'ów), reszta automatyczna.
 
@@ -14,7 +14,7 @@
 Po tym podaj mi: **nazwę site'a + URL `.local` + login admina**. Resztę robi Codex przez **Site Shell** (Local → site → „Open site shell" / „Site shell").
 
 ## ▶️ Co robię ja (mózg) + Codex (ręce)
-1. **Research** (Codex fetch) — `phase-specs.md` Faza 1 → `research.json` + dobór playbooku branżowego.
+1. **Research autonomiczny** (Codex fetch) — `phase-specs.md` Faza 1 → `brief.json`, `research.json`, `needs_user` dla krytycznych braków + dobór playbooku branżowego.
 2. **Środowisko** — Codex sprawdza/dopina stos przez Site Shell (Faza 2). Jeśli clone z szablonu → tylko weryfikacja.
 3. **Zdjęcia AI** — Codex startuje generację W TLE od razu (batch), reszta leci równolegle.
 4. **Design** — ja planuję strukturę pod TYP biznesu (playbook) + branding.
@@ -29,4 +29,9 @@ Po tym podaj mi: **nazwę site'a + URL `.local` + login admina**. Resztę robi C
 ## 🔑 Wymagania
 - Codex z tokenami + MCP wstały (`/codex-setup` jeśli rozłączony).
 - Local uruchomiony, site wystartowany.
-- Wizytówka GMB (screen lub link).
+- INPUT: jedno lub więcej dowolnych źródeł:
+  - URL istniejącej strony WWW (redesign/odświeżenie albo baza pod nową stronę).
+  - Profil social media (Facebook / Instagram / LinkedIn / TikTok / inne).
+  - Wizytówka Google (GMB) — screen lub link.
+  - Wpis/numer KRS, NIP albo REGON.
+  - Sama nazwa firmy + lokalizacja → Codex sam wyszukuje informacje w otwartej sieci.

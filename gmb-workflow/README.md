@@ -1,6 +1,6 @@
-# gmb-workflow — pakiet workflow „GMB → strona WordPress"
+# gmb-workflow — pakiet workflow „GMB/dowolne źródło → strona WordPress"
 
-Operacyjny zestaw dla pipeline'u: wizytówka Google biznesu bez strony → gotowa, jakościowa lokalna strona WP. Zalążek wtyczki `claude-codex-webdev-inc`.
+Operacyjny zestaw dla pipeline'u: dowolne źródło o firmie (strona WWW, social, GMB, KRS/NIP/REGON albo sama nazwa + lokalizacja) → research w sieci → gotowa, jakościowa lokalna strona WP. Zalążek wtyczki `claude-codex-webdev-inc`.
 
 ## Pliki
 | Plik | Co to | Kiedy |

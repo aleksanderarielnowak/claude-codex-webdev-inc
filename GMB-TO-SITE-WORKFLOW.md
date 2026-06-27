@@ -1,6 +1,6 @@
-# WORKFLOW: GMB → strona WordPress (master prompt)
+# WORKFLOW: GMB → strona WordPress (dowolne źródło → strona WP, master prompt)
 
-> Samowystarczalny protokół dla pipeline "wizytówka Google → gotowa lokalna strona WP".
+> Samowystarczalny protokół dla pipeline "dowolne źródło o firmie → gotowa lokalna strona WP" (GMB zostaje jednym z wariantów wejścia).
 > Rola: **Claude = mózg (planuje, dyryguje, weryfikuje). Codex = ręce (fetch, obrazy, build, WP-CLI).**
 > Cel: najwyższa jakość strony przy minimalnym koszcie tokenów Claude. Podział pracy **~75% Codex / 25% Claude**.
 > 🔧 **Twarde recepty z boju (CZYTAJ NAJPIERW przy buildzie):** `gmb-workflow/HARDENED-RECIPES.md` + gotowce `gmb-workflow/assets/`. To największy skok prędkości (z ~2 h debugu → ~30–40 min).
@@ -9,7 +9,7 @@
 
 ## 0. ZASADY NADRZĘDNE (obowiązują w każdym przebiegu)
 
-1. **Research/fetch ZAWSZE przez Codexa.** Surowy HTML/SERP/Maps nigdy nie wchodzi do kontekstu Claude — Codex trzyma na dysku, zwraca zwięzły JSON + ścieżki artefaktów.
+1. **Research/fetch ZAWSZE przez Codexa, z dowolnego źródła + samodzielne wyszukiwanie w otwartej sieci.** Surowy HTML/SERP/Maps/social/rejestry nigdy nie wchodzą do kontekstu Claude — Codex trzyma na dysku, zwraca zwięzły JSON + ścieżki artefaktów.
 2. **Kod/build pisze Codex; Claude planuje i weryfikuje.** Claude sam tylko: drobne edycje tekstu/config (<3 linie), CLI read-only, analiza.
 3. **NIE ufaj `ready=true` na słowo dla rzeczy WIZUALNYCH/ARCHITEKTURALNYCH.** Pola JSON Codexa są wiarygodne dla faktów plikowych (ścieżki, bajty, `node --check`), ale Codex wielokrotnie raportował `ok=true` przy realnych defektach (brak menu w headerze, biała karta edytora, obrazy 404, treść `opacity:0`). To trzeba zobaczyć.
 4. **Weryfikacja PO KAŻDYM ETAPIE, nie tylko na końcu.** Fundament osobno → strony osobno. Łapanie regresji wcześnie jest tańsze niż build 6 stron na zepsutym fundamencie.
@@ -23,21 +23,31 @@
 ## 1. PIPELINE — 5 faz
 
 ### Faza 0 — INTAKE (Claude)
-INPUT: wizytówka GMB jako **screen LUB link**, podawana w każdym przebiegu.
-- Jeśli screen: Claude vision 1× (logo, nazwa, branża, kolory, ton).
-- Jeśli link: Codex fetch (Faza 1 obejmuje intake).
+INPUT: **jedno lub więcej dowolnych źródeł**:
+- URL istniejącej strony WWW (redesign/odświeżenie albo baza pod nową stronę).
+- Profil social media (Facebook / Instagram / LinkedIn / TikTok / inne).
+- Wizytówka Google (GMB) — screen LUB link.
+- Wpis/numer KRS, NIP albo REGON.
+- Sama nazwa firmy + lokalizacja → Codex sam wyszukuje wszystkie informacje w otwartej sieci.
+- Screen → Claude vision 1× (logo, nazwa, branża, kolory, ton).
+- URL/link/social/KRS/NIP/REGON/sama nazwa → Codex fetch (Faza 1 obejmuje intake i normalizację).
 - Artefakt: `brief.json` (marka, branża, NAP, atrybuty, sugerowane kolory, ton).
 
 ### Faza 1 — RESEARCH (Codex FETCH)
-- Potwierdź brak strony WWW w GMB.
-- Zbierz: NAP, godziny, ocena+liczba opinii, destylat opinii (atuty/słabości/tematy), social, konkurencja (3-5), keywords (brand/lokalne/ofertowe/informacyjne).
+- Tryb: **autonomiczny max**. Codex zbiera ile się da z otwartej sieci, dociąga brakujące dane z wielu źródeł i normalizuje wszystko do `brief.json` / `research.json`.
+- KRS/NIP/REGON: nazwa rejestrowa, adres, PKD/branża, zarząd/forma prawna.
+- Google Maps/GMB: NAP, godziny, ocena+liczba opinii, destylat opinii (atuty/słabości/tematy), zdjęcia.
+- Social: ton marki, oferta, zdjęcia, aktywność.
+- SERP: konkurencja (3-5), keywords (brand/lokalne/ofertowe/informacyjne).
+- Jeśli istnieje strona WWW: zaciągnij obecną treść, branding i strukturę; ustal czy robimy redesign/odświeżenie istniejącej strony czy nową stronę.
+- Luki wypełnij rozsądnymi założeniami branżowymi. Eskaluj do usera tylko krytyczne braki (np. telefon, godziny otwarcia) jako lista `needs_user` w `research.json`; drobiazgi nie blokują przebiegu.
 - **NOWE — research TYPU biznesu:** jakie TYPY podstron są standardem/konwersyjne dla tej branży. Przykłady:
   - gastro/restauracja → ładne **menu jedzeniowe na stronie głównej**, galeria dań, rezerwacja, dowóz/na wynos
   - firma budowlana/wykonawcza → **Realizacje/Projekty** (portfolio z foto przed/po), Usługi, Wycena
   - beauty/salon → Cennik usług, Galeria metamorfoz, Rezerwacja online, Zespół
   - prawnik/usługi B2B → Specjalizacje, Case studies, Zespół, Kontakt z formularzem
   - e-com lokalny → Produkty/Kategorie, Dostawa, Opinie
-- Artefakt: `research.json` (+ `business-type-playbook` = rekomendowane typy podstron + sekcje pod tę branżę).
+- Artefakt: `research.json` (+ `needs_user`, `business-type-playbook` = rekomendowane typy podstron + sekcje pod tę branżę).
 
 ### Faza 2 — ŚRODOWISKO (Codex, ale na PRAWDZIWYM site Local)
 > **KRYTYCZNE — nie powtórzyć błędu:** NIE serwować przez `php -S`/`router.php` i NIE podrzucać folderu do `Local Sites` bez rejestracji. Jednowątkowy `php -S` zabija edytor Elementora (biała karta) i ładowanie wielu obrazów (404 pod współbieżnością), a niezarejestrowany site nie pojawia się w aplikacji Local.
