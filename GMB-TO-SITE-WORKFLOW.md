@@ -31,6 +31,7 @@ INPUT: **jedno lub więcej dowolnych źródeł**:
 - Sama nazwa firmy + lokalizacja → Codex sam wyszukuje wszystkie informacje w otwartej sieci.
 - Screen → Claude vision 1× (logo, nazwa, branża, kolory, ton).
 - URL/link/social/KRS/NIP/REGON/sama nazwa → Codex fetch (Faza 1 obejmuje intake i normalizację).
+- **Decyzja build-mode:** „Tryb edytowalności: NATYWNY Elementor (klient sam edytuje) czy HTML-section (premium/szybko, edycja przez kod)?" Pytaj na starcie, bo to determinuje architekturę buildu. Domyślnie **NATYWNY Elementor**, jeśli klient ma sam zarządzać stroną.
 - Artefakt: `brief.json` (marka, branża, NAP, atrybuty, sugerowane kolory, ton).
 
 ### Faza 1 — RESEARCH (Codex FETCH)
@@ -71,10 +72,19 @@ INPUT: **jedno lub więcej dowolnych źródeł**:
 ### Faza 4 — WYKONANIE (podział AUTHOR/APPLY — patrz HARDENED-RECIPES §5)
 > v2: Codex AUTORUJE pliki na dysk (z placeholderami `__IMG_*__`/`__CF7__`/`__MAP__`), CLAUDE APLIKUJE przez wp-cli + deterministyczny `postprocess-fixes.js` (Codex sandbox nie odpala php/wp). Weryfikacja per etap: NAJPIERW HTTP strukturalnie, wizualnie na końcu/batch.
 **Etap A — Fundament:** Claude przez wp-cli: motyw + wtyczki + header/footer (HFE, NIE hack) + Kit + puste strony. → weryfikacja wizualna.
-**Etap B — Strony:** Codex autoruje `elementor/<slug>.json` (batch 6 stron, copy PL, placeholdery) → Claude: import zdjęć→`media.json` → `postprocess-fixes.js` (FA5/gridy/hero/przyciski/CTA/mobile) → `apply-pages.php` → `base-additions.css` + mu-plugin → flush. → weryfikacja (HTTP + screeny).
+**Etap B — Strony:** wybierz tor z Fazy 0. HTML-section: Codex autoruje `elementor/<slug>.json` (batch 6 stron, copy PL, placeholdery) → Claude: import zdjęć→`media.json` → `postprocess-fixes.js` → `apply-pages.php` → `base-additions.css` + mu-plugin → flush. NATYWNY Elementor: Codex autoruje `build-<slug>-native.php` na `native-lib.php` + `native.css` → Claude aplikuje `wp eval-file` → flush CSS. → weryfikacja (HTTP + screeny).
 **Etap C — SEO + finisz:** Yoast (tytuły/meta/schema/keywords), optymalizacja obrazów (Smush). → weryfikacja.
 
 ---
+
+## 1A. DWA TORY BUDOWY
+
+| Tor | Receptura | Wybierz gdy | Uwaga |
+|---|---|---|---|
+| **NATYWNY Elementor** | `gmb-workflow/NATIVE-ELEMENTOR-BUILD.md` + `gmb-workflow/assets/native/` | klient ma sam edytować sekcje, teksty, obrazy i karty w Elementorze | większy JSON, wymagany dedykowany `native.css` |
+| **HTML-section** | `gmb-workflow/HTML-SECTION-BUILD.md` + `gmb-workflow/assets/child-theme/` | liczy się szybkość, premium wygląd i kontrola kodem | edycja sekcji głównie przez HTML/CSS |
+
+Oba tory zostają w pakiecie. Decyzja z intake jest kontraktem dla całej Fazy 4B.
 
 ## 2. STACK WTYCZEK (instalacja z repo wordpress.org)
 
@@ -130,6 +140,8 @@ INPUT: **jedno lub więcej dowolnych źródeł**:
 
 **6.2 Biblioteka sekcji** — `gmb-workflow/section-library.md`. Przetestowane, sparametryzowane szablony sekcji (`_elementor_data` z placeholderami). Build = wypełnianie placeholderów (copy + ID zdjęć + kolory), NIE autorstwo od zera. Reguły jakości (full-width, opacity:1+reduced-motion, kontrast, realne ikony) wbudowane RAZ w szablon → bugi nie wracają. **Build 6 stron ~15 min → ~3-5 min.** Kompozycje per branża (`compositions/<branza>.json`) wg playbooków.
 
+**6.2A NATYWNY Elementor** — `gmb-workflow/NATIVE-ELEMENTOR-BUILD.md` + `gmb-workflow/assets/native/`. Ten tor używa natywnych widgetów Elementora (`heading/text/button/icon-box/icon-list/image/gallery/accordion`) i wspólnego `native.css`, gdy edytowalność dla klienta jest ważniejsza niż minimalny JSON.
+
 **6.3 Równoległy build** — 6 podstron to niezależna treść → 6× `codex exec` w tle z osobnym scope. Faza 4B kurczy się do czasu najdłuższej pojedynczej strony.
 
 **6.4 Strategia zdjęć (wąskie gardło)** — generacja PIERWSZA, w tle, **batch w jednym wywołaniu** (nie N cold-startów), opcjonalnie kilka równoległych jobów. **Selektywne AI:** custom tylko gdzie kluczowe (hero, sygnaturowe dania/realizacje); generyczne (tekstury/tła) z kuratorowanego packa per branża — mniej generacji, ta sama jakość.
@@ -164,6 +176,9 @@ INPUT: **jedno lub więcej dowolnych źródeł**:
 ## ARTEFAKTY WORKFLOW (folder `gmb-workflow/`)
 - **`HARDENED-RECIPES.md`** — ⭐ twarde recepty z boju (wp-cli bootstrap, https, FA5, gridy, mapy, mobile, author/apply). CZYTAJ NAJPIERW.
 - **`assets/`** — gotowce: `postprocess-fixes.js` (deterministyczne fixy), `apply-pages.php` (aplikator), `base-additions.css` (bazowy CSS), `mu-kw-aktualnosci.php` (shortcode Aktualności).
+- **`NATIVE-ELEMENTOR-BUILD.md`** — tor natywnych widgetów Elementora dla stron edytowalnych przez klienta.
+- **`assets/native/`** — helpery `fm_native_*`, `native.css` i przykład buildera natywnego.
+- **`HTML-SECTION-BUILD.md`** — tor sekcji HTML w Elementorze, gdy priorytetem jest deterministyczny premium build.
 - `wp-base-blueprint.json` — bazowy stos (blueprint/clone/WP-CLI)
 - `section-library.md` — biblioteka sparametryzowanych sekcji + kompozycje
 - `qa-checklist.md` — automatyczna bramka QA headless

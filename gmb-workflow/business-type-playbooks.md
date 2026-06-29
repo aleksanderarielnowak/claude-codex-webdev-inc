@@ -24,6 +24,21 @@ Każdy playbook: **Home eksponuje** · **Podstrony (6)** · **Design** · **Sekc
 - **SEO:** „[usługa] [miasto]" (np. „elewacje Warszawa"), strony per usługa = silosy.
 - **Zdjęcia:** realizacje przed/po, ekipa, sprzęt, detale wykończenia.
 
+### Remonty / wykończenia — sekcje-killery
+| Sekcja | Po co | Uwaga wykonawcza |
+|---|---|---|
+| Przed/po | natychmiastowy dowód jakości | interaktywny slider albo kafle z parą zdjęć |
+| Wideo w hero / showreel | podnosi zaufanie szybciej niż tekst | krótki loop, kontrola kontrastu, fallback obraz |
+| Kalkulator wyceny | łapie leady z intencją zakupu | metraż × pakiet × typ lokalu, wynik orientacyjny |
+| Realizacje jako case studies | pokazuje proces i skalę | metraż, czas, budżet, zakres, zdjęcia, efekt |
+| Feed IG/TikTok | świeżość i dowód aktywności | embed poniżej głównych treści, nie zamiast portfolio |
+| Zespół / kierownik budowy | zmniejsza obawę przed chaosem remontu | osoba kontaktowa, nadzór, odpowiedzialność |
+| Mapa zrealizowanych projektów | lokalny dowód działania | dzielnice/osiedla, bez ujawniania prywatnych adresów |
+| Opinie Google na żywo | social proof | widget/shortcode + fallback statyczny |
+| Sticky mobilny CTA | szybki kontakt z telefonu | „Zadzwoń teraz" / „Poproś o wycenę", bez numeru w etykiecie |
+
+**Nota SEO:** nie poświęcać lokalnego SEO dla estetyki. Osobne strony dzielnicowe i usługowe zostają, a design ma je wspierać, nie zastępować.
+
 ## 💇 Beauty / salon / fryzjer / kosmetyka / barber
 - **Home eksponuje:** metamorfozy (przed/po), cennik, rezerwacja online.
 - **Podstrony:** Start · Usługi+Cennik · **Galeria/Metamorfozy** · Zespół · Opinie · Kontakt+Rezerwacja.
