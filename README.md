@@ -17,6 +17,7 @@ Skill **`wordpress`** odpala się sam na zadaniach WP (build / rozbudowa / anali
 - `skills/wordpress/references/GMB-TO-SITE-WORKFLOW.md` — master prompt pipeline'u „źródło o firmie → gotowa strona".
 - `skills/wordpress/references/gmb-workflow/` — pakiet operacyjny: `phase-specs`, `business-type-playbooks`, `section-library`, `NATIVE-ELEMENTOR-BUILD`, `HTML-SECTION-BUILD`, `HARDENED-RECIPES`, `qa-checklist`, `wp-base-blueprint.json`.
 - `skills/wordpress/references/gmb-workflow/assets/` — gotowce wykonawcze: `native/` (helpery `fm_native_*`), `child-theme/` (helpery `site_*`), `postprocess-fixes.js`, `apply-pages.php`, `base-additions.css`, `polish/`.
+- `skills/web-design-trends/SKILL.md` — projektuj z BIEŻĄCEJ wiedzy o web-designie (research delegowany), nie z pamięci; zasila fazę Design.
 - `LEARNINGS.md` — guardraile WP (bugi z boju, wstrzykiwane do specu Codexa).
 
 ## Komendy (jawne wejścia)
