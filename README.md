@@ -19,6 +19,13 @@ Skill **`wordpress`** odpala się sam na zadaniach WP (build / rozbudowa / anali
 - `skills/wordpress/references/gmb-workflow/assets/` — gotowce wykonawcze: `native/` (helpery `fm_native_*`), `child-theme/` (helpery `site_*`), `postprocess-fixes.js`, `apply-pages.php`, `base-additions.css`, `polish/`.
 - `LEARNINGS.md` — guardraile WP (bugi z boju, wstrzykiwane do specu Codexa).
 
+## Komendy (jawne wejścia)
+- `/claude-codex-webdev-inc:build <źródło o firmie>` — pełny pipeline budowy od zera.
+- `/claude-codex-webdev-inc:section <strona + sekcja>` — dołóż sekcję z biblioteki (rozbudowa).
+- `/claude-codex-webdev-inc:qa <URL/site>` — QA headless (asercje architektura/wizual/SEO).
+
+Na co dzień nie musisz ich wołać — skill `wordpress` odpala się sam na zadaniach WP; komendy to skróty do konkretnych operacji.
+
 ## Kanały zmian (kluczowa zasada)
 **REST/WP-CLI first** (deterministyczne, odwracalne, „w bazie", autonomiczne). **Headless wp-admin dopiero dla rzeczy GUI-only** (blob ustawień wtyczki, operacje w edytorze Elementora bez API). Zmiany w **plikach motywu / snippety** — webdev-inc **najpierw informuje** co i gdzie chce umieścić, dopiero po potwierdzeniu działa.
 
