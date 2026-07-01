@@ -1,37 +1,28 @@
-# START HERE — jak odpalić przebieg GMB/dowolne źródło → strona
+# Uruchomienie pipeline'u: dowolne źródło → strona WP
 
-> Jeden krok ręczny po Twojej stronie (Local nie ma CLI do tworzenia site'ów), reszta automatyczna.
+Przebieg wykonujesz **autonomicznie** (mózg/ręce). Jedyny krok, którego nie zrobisz sam: **utworzenie site'a w Local** — Local nie ma CLI do tworzenia site'ów. Poproś o niego użytkownika, resztę prowadź sam.
 
-## ✅ Twój 1 krok: site w Local (~1-2 min)
-**Opcja A (najszybsza, gdy mamy szablon):** w Local kliknij prawym na site-szablonie z gotowym stosem → **Clone** → nazwij np. `klient-xyz`. Stos (Hello Elementor + wtyczki + Kit) już jest. ~30 s.
+## Krok użytkownika (poproś o niego na starcie, ~1-2 min)
+Poinstruuj użytkownika krótko i poczekaj na dane:
+- **Opcja A (najszybsza, gdy istnieje szablon):** w Local prawy klik na site-szablonie z gotowym stosem → **Clone** → nazwa `klient-xyz`. Stos (Hello Elementor + wtyczki + Kit) już jest (~30 s).
+- **Opcja B (pierwszy raz / bez szablonu):** Local → **+ Create a new site** → nazwa → Environment **Preferred** (nginx + PHP 8.2+ + MySQL), WordPress najnowszy → ustaw login admina → **Start site**. (Zrób z tego potem szablon do clone'a.)
 
-**Opcja B (pierwszy raz / bez szablonu):**
-1. Local → **+ Create a new site** → nazwa (np. `klient-xyz`).
-2. Environment: **Preferred** (nginx + PHP 8.2+ + MySQL). WordPress: najnowszy.
-3. Ustaw login admina (zapamiętaj) → **Start site**.
-4. (Raz) z tego zrób szablon do clone'a na przyszłość.
+Odbierz od użytkownika: **nazwę site'a + URL `.local` + login admina.** Dalej operujesz przez Site Shell (Local → site → „Open site shell").
 
-Po tym podaj mi: **nazwę site'a + URL `.local` + login admina**. Resztę robi Codex przez **Site Shell** (Local → site → „Open site shell" / „Site shell").
-
-## ▶️ Co robię ja (mózg) + Codex (ręce)
-1. **Research autonomiczny** (Codex fetch) — `phase-specs.md` Faza 1 → `brief.json`, `research.json`, `needs_user` dla krytycznych braków + dobór playbooku branżowego.
-2. **Środowisko** — Codex sprawdza/dopina stos przez Site Shell (Faza 2). Jeśli clone z szablonu → tylko weryfikacja.
-3. **Zdjęcia AI** — Codex startuje generację W TLE od razu (batch), reszta leci równolegle.
-4. **Design** — ja planuję strukturę pod TYP biznesu (playbook) + branding.
-5. **Build** — Codex wypełnia sekcje z `section-library.md` (równolegle per strona).
+## Przebieg (mózg = Claude, ręce = Codex)
+1. **Research autonomiczny** — deleguj fetch do Codexa (`phase-specs.md` Faza 1) → `brief.json`, `research.json`, `needs_user` (tylko krytyczne braki) + dobór playbooku branżowego.
+2. **Środowisko** — Codex weryfikuje/dopina stos przez Site Shell (Faza 2); clone z szablonu → tylko weryfikacja. WP-CLI odpala Claude (patrz `HARDENED-RECIPES.md` §1–§2).
+3. **Zdjęcia AI** — uruchom generację Codexa **w tle od razu** (batch); reszta leci równolegle.
+4. **Design** — zaplanuj strukturę pod TYP biznesu (playbook) + branding. Dla kierunku wizualnego użyj skilla `web-design-trends`.
+5. **Build** — Codex wypełnia sekcje z `section-library.md` (równolegle per strona); wybór toru: NATYWNY Elementor / HTML-section.
 6. **SEO** — Yoast (Faza 4C).
-7. **QA** — Codex headless wg `qa-checklist.md`; ja oglądam kontaktówkę + finalny przegląd estetyczny.
-8. **Handoff** — dane logowania + lista podstron; site widoczny i edytowalny w Local.
+7. **QA** — Codex headless wg `qa-checklist.md`; oglądaj kontaktówkę + finalny przegląd estetyczny, nie poluj bugów wzrokiem.
+8. **Handoff** — przekaż dane logowania + listę podstron; site edytowalny w Local.
 
-## ⚠️ Zasady, które trzymają jakość
-- Fetch zawsze Codex · weryfikacja po KAŻDYM etapie · `ready=true` ≠ poprawność wizualna · spec nazywa narzędzie i zabrania hacków · NIGDY `php -S` jako hosting · header/footer tylko przez HFE.
+## Zasady trzymające jakość
+Fetch zawsze przez Codexa · weryfikuj po KAŻDYM etapie · `ready=true` ≠ poprawność wizualna · spec nazywa narzędzie i zabrania hacków · NIGDY `php -S` jako hosting · header/footer tylko przez HFE.
 
-## 🔑 Wymagania
-- Codex z tokenami + MCP wstały (`/codex-setup` jeśli rozłączony).
+## Wymagania wstępne (sprawdź przed startem)
+- Codex z tokenami + MCP wstały (`/codex-setup`, jeśli rozłączony).
 - Local uruchomiony, site wystartowany.
-- INPUT: jedno lub więcej dowolnych źródeł:
-  - URL istniejącej strony WWW (redesign/odświeżenie albo baza pod nową stronę).
-  - Profil social media (Facebook / Instagram / LinkedIn / TikTok / inne).
-  - Wizytówka Google (GMB) — screen lub link.
-  - Wpis/numer KRS, NIP albo REGON.
-  - Sama nazwa firmy + lokalizacja → Codex sam wyszukuje informacje w otwartej sieci.
+- INPUT: jedno lub więcej źródeł — URL strony WWW (redesign/baza), profil social, wizytówka GMB (screen/link), KRS/NIP/REGON, albo sama nazwa + lokalizacja (Codex wyszukuje w otwartej sieci).
