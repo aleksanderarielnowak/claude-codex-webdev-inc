@@ -1,0 +1,13 @@
+{
+  "name": "claude-codex-webdev-inc",
+  "version": "0.1.0",
+  "description": "Buduje i modyfikuje strony WordPress/Elementor od zera — od źródła o firmie (WWW/social/GMB/NIP) przez research po gotową, edytowalną lokalną stronę. Dwa tory buildu (natywny Elementor / HTML-section), playbooki branżowe, biblioteka sekcji, hardened recipes i QA headless. Współpracuje z claude-codex-synapse (protokół mózg/ręce).",
+  "author": {
+    "name": "Aleksander Nowak",
+    "email": "anowak@netin.pro"
+  },
+  "homepage": "https://github.com/aleksanderarielnowak/claude-codex-webdev-inc",
+  "repository": "https://github.com/aleksanderarielnowak/claude-codex-webdev-inc",
+  "license": "MIT",
+  "keywords": ["wordpress", "elementor", "webdev", "site-builder", "gmb", "local-wp", "codex", "synapse"]
+}
