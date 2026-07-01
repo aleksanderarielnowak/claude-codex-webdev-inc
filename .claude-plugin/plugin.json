@@ -1,7 +1,7 @@
 {
   "name": "claude-codex-webdev-inc",
-  "version": "0.1.0",
-  "description": "Buduje i modyfikuje strony WordPress/Elementor od zera — od źródła o firmie (WWW/social/GMB/NIP) przez research po gotową, edytowalną lokalną stronę. Dwa tory buildu (natywny Elementor / HTML-section), playbooki branżowe, biblioteka sekcji, hardened recipes i QA headless. Współpracuje z claude-codex-synapse (protokół mózg/ręce).",
+  "version": "0.2.0",
+  "description": "Operator WordPress/Elementor: budowa od zera, rozbudowa, analiza motywu, zmiany i poprawki. Pracuje narzędziami WP (WP-CLI, REST, Elementor, wtyczki), a dla rzeczy GUI-only prowadzi wp-admin headless przez Codexa. Dwa tory buildu (natywny Elementor / HTML-section), playbooki branżowe, biblioteka sekcji, hardened recipes i QA headless. Skill 'wordpress' odpala się na zadaniach WP; konsumuje protokół mózg/ręce z claude-codex-synapse.",
   "author": {
     "name": "Aleksander Nowak",
     "email": "anowak@netin.pro"
