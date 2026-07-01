@@ -1,26 +1,38 @@
 # claude-codex-webdev-inc
 
-Wtyczka workflow (zalążek): **dowolne źródło o firmie (strona WWW, social, GMB, KRS/NIP/REGON albo sama nazwa + lokalizacja) → research w sieci → gotowa, jakościowa lokalna strona WordPress**, w modelu Synapse (Claude = mózg, Codex = ręce).
+Wtyczka Claude Code: **operator WordPress/Elementor** — budowa stron od zera, rozbudowa, analiza motywu, zmiany i poprawki. Pracuje narzędziami samego WordPressa (WP-CLI, REST, Elementor, wtyczki), a dla rzeczy dostępnych wyłącznie przez GUI prowadzi **wp-admin headless przez Codexa**. Model Synapse: Claude = mózg (spec + weryfikacja), Codex = ręce (produkcja).
 
-> Status: **seed / dokumentacja workflow**. Komponenty wykonawcze (golden-build `sections/*.json`, skrypt QA Playwright, site-szablon Local, skill `web-design-trends`) dochodzą przy działającym site + tokenach Codexa. Patrz `gmb-workflow/README.md` → TODO.
+## Instalacja
+```
+/plugin marketplace add aleksanderarielnowak/alek-claude-plugins
+/plugin install claude-codex-webdev-inc@alek-claude-plugins
+```
+Rekomendowany towarzysz: **claude-codex-synapse** (protokół mózg/ręce, delegacja przez `/codex`). webdev-inc konsumuje ten protokół, gdy jest zainstalowany; bez niego działa inline.
 
-## Start
-1. Przeczytaj **`GMB-TO-SITE-WORKFLOW.md`** (master prompt — pełny protokół).
-2. **`gmb-workflow/START-HERE.md`** — jak odpalić przebieg (Twój 1 krok w Local).
-3. Specy per faza: **`gmb-workflow/phase-specs.md`**.
-4. Wybierz tor buildu: **`gmb-workflow/NATIVE-ELEMENTOR-BUILD.md`** (edytowalne widgety Elementora) albo **`gmb-workflow/HTML-SECTION-BUILD.md`** (premium/szybko, edycja przez kod).
+## Jak działa
+Skill **`wordpress`** odpala się sam na zadaniach WP (build / rozbudowa / analiza / poprawki). To router: klasyfikuje zadanie i wczytuje właściwy reference dopiero wtedy, gdy jest potrzebny (progressive disclosure — tanio dla kontekstu).
 
-## Zawartość
-- `GMB-TO-SITE-WORKFLOW.md` — master prompt (zasady, 5 faz, stack, design, przyspieszenie, design-system, czas)
-- `gmb-workflow/` — pakiet operacyjny: README (indeks), START-HERE, phase-specs, business-type-playbooks, section-library, `NATIVE-ELEMENTOR-BUILD.md`, `HTML-SECTION-BUILD.md`, qa-checklist, wp-base-blueprint.json
-- `gmb-workflow/assets/native/` — starter toru NATYWNY Elementor: helpery `fm_native_*`, `native.css`, przykład buildera.
-- `gmb-workflow/assets/child-theme/` — starter toru HTML-section: helpery `site_*`, CSS komponentów, Kit, footer.
+- `skills/wordpress/SKILL.md` — protokół: router zadań, kanały zmian, dwa tory buildu, zasady jakości, guardraile.
+- `skills/wordpress/references/wp-change-channels.md` — Kanał 1 (WP-CLI/REST, domyślny) vs Kanał 2 (headless wp-admin, fallback GUI-only) + **reguła zgody na pliki motywu**.
+- `skills/wordpress/references/GMB-TO-SITE-WORKFLOW.md` — master prompt pipeline'u „źródło o firmie → gotowa strona".
+- `skills/wordpress/references/gmb-workflow/` — pakiet operacyjny: `phase-specs`, `business-type-playbooks`, `section-library`, `NATIVE-ELEMENTOR-BUILD`, `HTML-SECTION-BUILD`, `HARDENED-RECIPES`, `qa-checklist`, `wp-base-blueprint.json`.
+- `skills/wordpress/references/gmb-workflow/assets/` — gotowce wykonawcze: `native/` (helpery `fm_native_*`), `child-theme/` (helpery `site_*`), `postprocess-fixes.js`, `apply-pages.php`, `base-additions.css`, `polish/`.
+- `LEARNINGS.md` — guardraile WP (bugi z boju, wstrzykiwane do specu Codexa).
+
+## Kanały zmian (kluczowa zasada)
+**REST/WP-CLI first** (deterministyczne, odwracalne, „w bazie", autonomiczne). **Headless wp-admin dopiero dla rzeczy GUI-only** (blob ustawień wtyczki, operacje w edytorze Elementora bez API). Zmiany w **plikach motywu / snippety** — webdev-inc **najpierw informuje** co i gdzie chce umieścić, dopiero po potwierdzeniu działa.
+
+## Dwa tory buildu
+- **NATYWNY Elementor** — gdy klient sam edytuje w panelu (natywne widgety, `native.css`).
+- **HTML-section** — gdy priorytet to szybkość/premium/pełna kontrola CSS (sekcje HTML, child-theme).
+
+Zawsze: strona ma być edytowalna przez mid-poziom SEOwca; struktura udokumentowana w handoffie.
 
 ## Filozofia
-Claude planuje/weryfikuje (~25%), Codex wykonuje (~75%). Jakość: weryfikacja per-etap · `ready=true` ≠ poprawność wizualna · specy nazywają narzędzie i zabraniają hacków. Szybkość: blueprint/clone + biblioteka sekcji + build równoległy + zdjęcia w tle + QA headless. Cel: ~30-45 min/projekt przy wyższej jakości.
+Weryfikacja per-etap · `ready=true` ≠ poprawność wizualna · specy nazywają narzędzie i zabraniają hacków · pracuj po WordPressowemu (API wtyczek/Elementora, nie hacki w DB).
 
 ## Powiązane
-Bazuje na pluginie `claude-codex-synapse` (protokół mózg/ręce) + oficjalnych skillach WordPress.
+`claude-codex-synapse` (protokół mózg/ręce) + oficjalne skille WordPress.
 
 ---
 🤖 Generated with [Claude Code](https://claude.com/claude-code)

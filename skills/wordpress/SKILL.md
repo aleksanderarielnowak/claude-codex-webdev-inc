@@ -14,13 +14,13 @@ Jeśli Synapse niedostępny: wykonaj inline, ale trzymaj ten sam podział spec�
 
 ## Router zadań — najpierw sklasyfikuj, potem wczytaj właściwy reference
 1. **Budowa OD ZERA** (nowy site z źródła o firmie: WWW/social/GMB/NIP/nazwa+lokalizacja) →
-   pipeline 5-fazowy. Wczytaj: `GMB-TO-SITE-WORKFLOW.md` (master), `gmb-workflow/phase-specs.md`, i tor buildu (niżej).
+   pipeline 5-fazowy. Wczytaj: `references/GMB-TO-SITE-WORKFLOW.md` (master), `references/gmb-workflow/phase-specs.md`, i tor buildu (niżej).
 2. **Rozbudowa / zmiany / poprawki** na istniejącym site (dodaj podstronę, sekcję, feature; popraw layout/treść/SEO) →
    zidentyfikuj *realnie wyrenderowane* źródło (`data-*-id`, ścieżka assetu), zrób snapshot, zmień, zweryfikuj.
-   Sekcje z biblioteki: `gmb-workflow/section-library.md`. Recepty naprawcze: `gmb-workflow/HARDENED-RECIPES.md`.
+   Sekcje z biblioteki: `references/gmb-workflow/section-library.md`. Recepty naprawcze: `references/gmb-workflow/HARDENED-RECIPES.md`.
 3. **Analiza motywu / audyt** (jak zbudowana jest strona, co poprawić) →
    zbierz TANIO: aktywny motyw/child, stos wtyczek, `_elementor_data` kluczowych stron, Kit; raport + rekomendacje.
-   Kryteria jakości i asercje: `gmb-workflow/qa-checklist.md`.
+   Kryteria jakości i asercje: `references/gmb-workflow/qa-checklist.md`.
 
 ## Kanały zmian (tiered) — patrz `references/wp-change-channels.md`
 - **Kanał 1 (DOMYŚLNY): WP-CLI / REST / kod.** Codex autoruje → Claude aplikuje (`wp eval-file`, most REST). Deterministyczne, odwracalne, „w bazie". Działa autonomicznie (snapshot→zmiana→weryfikacja).
@@ -31,23 +31,23 @@ Jeśli Synapse niedostępny: wykonaj inline, ale trzymaj ten sam podział spec�
 Zmiany „w bazie" (Kanał 1: `wp_options`, meta, `_elementor_data`) rób autonomicznie. Ale gdy coś lepiej rozwiązać **snippetem albo w plikach/motywie** (`functions.php`, `style.css` child-theme, mu-plugin, edytor plików motywu) — **NAJPIERW poinformuj usera co i gdzie chcesz umieścić/zmienić i poczekaj na potwierdzenie.** Nie dotykaj plików motywu po cichu. (Ta sama reguła obejmie edycję plików motywu przez headless wp-admin, gdy będzie dostępna — dostęp bez SSH.)
 
 ## Dwa tory buildu stron (dla budowy i rozbudowy)
-- **NATYWNY Elementor** — gdy klient sam edytuje w panelu. Widgety Elementora, helpery `fm_native_*`. Reference: `gmb-workflow/NATIVE-ELEMENTOR-BUILD.md`, assety `assets/native/`.
-- **HTML-section** — gdy priorytet to szybkość/premium/pełna kontrola CSS. Sekcje HTML, helpery `site_*`. Reference: `gmb-workflow/HTML-SECTION-BUILD.md`, assety `assets/child-theme/` + `assets/postprocess-fixes.js`, `assets/apply-pages.php`, `assets/base-additions.css`.
+- **NATYWNY Elementor** — gdy klient sam edytuje w panelu. Widgety Elementora, helpery `fm_native_*`. Reference: `references/gmb-workflow/NATIVE-ELEMENTOR-BUILD.md`, assety `references/gmb-workflow/assets/native/`.
+- **HTML-section** — gdy priorytet to szybkość/premium/pełna kontrola CSS. Sekcje HTML, helpery `site_*`. Reference: `references/gmb-workflow/HTML-SECTION-BUILD.md`, assety `references/gmb-workflow/assets/child-theme/` + `references/gmb-workflow/assets/postprocess-fixes.js`, `references/gmb-workflow/assets/apply-pages.php`, `references/gmb-workflow/assets/base-additions.css`.
 - **Wybór:** kto będzie edytował? Klient-edytor → NATYWNY. Szybkość/premium bez edycji klienta → HTML-section. Zawsze dokumentuj strukturę w handoffie — strona ma być edytowalna przez mid-poziom SEOwca.
 
 ## Zasady jakości (twarde)
 - **Pracuj po WordPressowemu**: WP-CLI/REST/hooki/API wtyczek/Elementora; nie hackuj bloba w DB, gdy jest API.
 - **Weryfikuj per-etap, nie batch**: `ready=true` z Codexa ≠ poprawność wizualna — rób screenshot dla UI.
-- **Guardraile WP** (SVG bez `width/height` → 0px; `loading=lazy` na zwiniętym boxie; celuj w wewnętrzny węzeł widgetu; UTF-8 bez BOM; HTTPS od razu; ikony FA5 nie FA6): patrz `LEARNINGS.md` tej wtyczki + `gmb-workflow/HARDENED-RECIPES.md`.
+- **Guardraile WP** (SVG bez `width/height` → 0px; `loading=lazy` na zwiniętym boxie; celuj w wewnętrzny węzeł widgetu; UTF-8 bez BOM; HTTPS od razu; ikony FA5 nie FA6): patrz `../../LEARNINGS.md` tej wtyczki + `references/gmb-workflow/HARDENED-RECIPES.md`.
 - **Środowisko**: WP-CLI odpala **Claude** (sandbox Windows/Local nie uruchamia php.exe pod Codexem) — Codex AUTORUJE pliki, Claude APLIKUJE. Patrz HARDENED §1.
 
 ## Reference (poziom 3 — wczytuj dopiero, gdy dana faza tego wymaga)
-- `GMB-TO-SITE-WORKFLOW.md` — master prompt pipeline'u od zera
-- `gmb-workflow/phase-specs.md` — specy 5 faz (wejście/wyjście/narzędzie/akceptacja)
-- `gmb-workflow/business-type-playbooks.md` — struktura podstron per branża
-- `gmb-workflow/section-library.md` — biblioteka sekcji (placeholder + QA)
-- `gmb-workflow/HARDENED-RECIPES.md` — 13 rozwiązanych blokerów z boju
-- `gmb-workflow/qa-checklist.md` — asercje A/V/S/X (headless + HTTP)
-- `gmb-workflow/wp-base-blueprint.json` — kanoniczny stos wtyczek
-- `gmb-workflow/phase-szlifowanie.md` — opcjonalny finisz (animacje/liczniki)
+- `references/GMB-TO-SITE-WORKFLOW.md` — master prompt pipeline'u od zera
+- `references/gmb-workflow/phase-specs.md` — specy 5 faz (wejście/wyjście/narzędzie/akceptacja)
+- `references/gmb-workflow/business-type-playbooks.md` — struktura podstron per branża
+- `references/gmb-workflow/section-library.md` — biblioteka sekcji (placeholder + QA)
+- `references/gmb-workflow/HARDENED-RECIPES.md` — 13 rozwiązanych blokerów z boju
+- `references/gmb-workflow/qa-checklist.md` — asercje A/V/S/X (headless + HTTP)
+- `references/gmb-workflow/wp-base-blueprint.json` — kanoniczny stos wtyczek
+- `references/gmb-workflow/phase-szlifowanie.md` — opcjonalny finisz (animacje/liczniki)
 - `references/wp-change-channels.md` — kanały zmian + login wp-admin + reguła zgody
