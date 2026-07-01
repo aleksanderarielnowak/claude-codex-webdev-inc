@@ -1,0 +1,18 @@
+{
+  "site": "example.com",
+  "env": "live",
+  "channels_available": ["rest-connector", "ssh-wpcli", "headless-codex"],
+  "channel_default": "rest-connector",
+  "stack": {
+    "theme": "",
+    "builder": "",
+    "content_store": "",
+    "plugins": { "seo": "", "forms": "", "cache": "", "security": "", "woocommerce": "" }
+  },
+  "access": {
+    "rest_connector": { "installed": false, "namespace": "", "note": "" },
+    "ssh": { "available": false, "note": "" },
+    "local_path": ""
+  },
+  "notes": ""
+}
