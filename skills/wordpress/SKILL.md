@@ -48,6 +48,7 @@ Zmiany „w bazie" (Kanał 1: `wp_options`, meta, `_elementor_data`) rób autono
 - **Wybór:** kto będzie edytował? Klient-edytor → NATYWNY. Szybkość/premium bez edycji klienta → HTML-section. Zawsze dokumentuj strukturę w handoffie — strona ma być edytowalna przez mid-poziom SEOwca.
 
 ## Zasady jakości (twarde)
+- **Projektuj, nie wypełniaj:** research to surowiec, nie projekt. PRZED buildem zapisz krótki design-concept (wielki pomysł/motyw · kierunek wizualny · 2–3 sekcje-sygnaturki pod branżę · świadomy ruch) i myśl o **UX/konwersji**. Sekcje, przejścia i animacje rób **ze smakiem i tematycznie**, nie generic-template. Poświęć budżet myślenia na to, jak strona ma wyglądać i dlaczego. Patrz `references/design-craft.md`.
 - **Pracuj po WordPressowemu**: WP-CLI/REST/hooki/API wtyczek/Elementora; nie hackuj bloba w DB, gdy jest API.
 - **Weryfikuj per-etap, nie batch**: `ready=true` z Codexa ≠ poprawność wizualna — rób screenshot dla UI.
 - **Guardraile WP** (SVG bez `width/height` → 0px; `loading=lazy` na zwiniętym boxie; celuj w wewnętrzny węzeł widgetu; UTF-8 bez BOM; HTTPS od razu; ikony FA5 nie FA6): patrz `../../LEARNINGS.md` tej wtyczki + `references/gmb-workflow/HARDENED-RECIPES.md`.
@@ -66,3 +67,4 @@ Zmiany „w bazie" (Kanał 1: `wp_options`, meta, `_elementor_data`) rób autono
 - `references/wp-operational-patterns.md` — bezpieczne zmiany (snapshot/rollback/audit/profil/dry-run/bulk) + mapa wiedzy `wp-*`
 - `references/wp-operating-workflow.md` — orkiestracja: plan-then-execute, tryby pracy, per-projekt workspace + stan, honesty/audit
 - `references/wp-project.template.json` — szablon zapisu tożsamości sajtu + dostępnych kanałów
+- `references/design-craft.md` — myślenie o wyglądzie/UX/konwersji: design-concept, sekcje-sygnaturki, ruch ze smakiem, tematyczność

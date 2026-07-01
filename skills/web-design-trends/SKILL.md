@@ -23,4 +23,4 @@ Zanim zaprojektujesz layout/wygląd, **zbierz aktualne wzorce** (bieżący rok) 
 - **Wydajność / dostępność** — unikaj kosztownych efektów łamiących render/WCAG (np. ciężki `backdrop-filter`, kontrast <4.5, animacje bez `reduced-motion`) — patrz `../../LEARNINGS.md`.
 
 ## Wynik
-Design-brief zasilający tor buildu (NATYWNY/HTML) w skillu `wordpress`. To „bieżąca wiedza webdev", na której webdev-inc buduje — zamiast projektować z głowy.
+Design-brief zasilający tor buildu (NATYWNY/HTML) w skillu `wordpress`. To „bieżąca wiedza webdev", na której webdev-inc buduje — zamiast projektować z głowy. Trend jest **inspiracją, nie gotowcem**: przekuj go w autorski design-concept (motyw, sekcje-sygnaturki, ruch ze smakiem, UX/konwersja) — patrz `../wordpress/references/design-craft.md`.
