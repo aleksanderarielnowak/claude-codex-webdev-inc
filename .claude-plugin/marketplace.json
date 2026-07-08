@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-marketplace.json",
+  "name": "webdev-inc",
+  "owner": {
+    "name": "Aleksander Nowak",
+    "url": "https://github.com/aleksanderarielnowak"
+  },
+  "plugins": [
+    {
+      "name": "claude-codex-webdev-inc",
+      "source": "./",
+      "description": "Buduje i modyfikuje strony WordPress od zera — od źródła o firmie (WWW/social/GMB/NIP) przez research po gotową, edytowalną lokalną stronę. Domyślnie natywny Elementor, z autonomicznym wyborem innego buildera/motywu/pluginu (Bricks, Divi, Breakdance, Oxygen, Blocksy, GeneratePress, Kadence, WooCommerce i wtyczki branżowe) gdy brief tego wymaga. Playbooki branżowe, biblioteka sekcji, hardened recipes i QA. Współpracuje z claude-codex-synapse."
+    }
+  ]
+}
