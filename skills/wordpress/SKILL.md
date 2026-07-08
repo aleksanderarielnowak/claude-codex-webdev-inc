@@ -26,6 +26,7 @@ Potem **dobierz metodę do TEGO stacku** (nie odwrotnie): Elementor → `_elemen
 ## Router zadań — najpierw sklasyfikuj, potem wczytaj właściwy reference
 1. **Budowa OD ZERA** (nowy site z źródła o firmie: WWW/social/GMB/NIP/nazwa+lokalizacja) →
    pipeline 5-fazowy. Wczytaj: `references/GMB-TO-SITE-WORKFLOW.md` (master), `references/gmb-workflow/phase-specs.md`, i tor buildu (niżej).
+   Jeśli nie ma realnej marki do researchu (demo/portfolio/fictional rebrand), uruchom skill `branding` PRZED Fazą 3 Design: najpierw powstaje `brand.json`/`brand-spec.md` z nazwą, paletą, fontami, logo concept i tonem, a dopiero potem `references/design-craft.md` oraz `references/gmb-workflow/STACK-DECISION-GUIDE.md` budują na tej tożsamości.
 2. **Rozbudowa / zmiany / poprawki** na istniejącym site (dodaj podstronę, sekcję, feature; popraw layout/treść/SEO) →
    zidentyfikuj *realnie wyrenderowane* źródło (`data-*-id`, ścieżka assetu), zrób snapshot, zmień, zweryfikuj.
    Sekcje z biblioteki: `references/gmb-workflow/section-library.md`. Recepty naprawcze: `references/gmb-workflow/HARDENED-RECIPES.md`.
