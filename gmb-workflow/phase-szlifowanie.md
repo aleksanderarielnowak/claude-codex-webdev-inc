@@ -23,7 +23,7 @@ Sprawdzona na przebiegu **OSK Jan** (nauka jazdy, 2026-06-17). Pliki wzorcowe: `
 **`functions.php`:** dograj enqueue obu plików z `filemtime()` jako wersją (cache-bust), nie psuj istniejących.
 
 ## Adaptacja per projekt
-- Prefiks klas `jan-` → zamień na prefiks projektu (lub zostaw, jeśli child theme to dziedziczy).
+- Prefiks klas `jan-` → zamień na prefiks projektu.
 - Mapowanie `page-id-N` → realne ID podstron + dobór zdjęć hero.
 - Wartości liczników + etykiety pod branżę; ZAWSZE disclaimer „*dane przykładowe" przy placeholderach.
 - Trzymać [[rule-button-contrast]]: żółty/akcentowy guzik = ciemny tekst, niezależnie od tła sekcji.

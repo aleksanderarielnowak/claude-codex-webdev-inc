@@ -43,10 +43,10 @@ Jeden przebieg z emulacją `prefers-reduced-motion: reduce` — V4 musi nadal pr
 > WAŻNE: część z tych checków rób przez **HTTP/grep po stronie Claude**, bo headless Codexa MYLI (patrz `HARDENED-RECIPES.md` §13: `ignoreHTTPSErrors` ukrywa mixed-content; Google Maps puste headless; boolean Codexa bywa fałszywy).
 - **X1 Brak mixed-content** — w HTML strony żaden `wp-content/uploads` URL nie jest `http://` (wszystkie `https://`). Łapie puste zdjęcia u usera (Codex headless tego NIE wykryje).
 - **X2 Ikony renderują** — icon-boxy mają realne glify FA5 (nie puste); zero nazw FA6/`eicon-` nieistniejących. (Sprawdź też brak `Trying to access array offset` w body = eksperyment SVG-ikon + WP_DEBUG.)
-- **X3 Kafelki równe** — kontenery-siatki mają `id^="kwg"` i `display:grid` (równe kolumny + wysokości); brak 2+1/krzywego wrapu.
+- **X3 Kafelki równe** — natywne kontenery/karty mają równe kolumny i wysokości przez `native.css`; brak 2+1/krzywego wrapu.
 - **X4 Przyciski na żółtym bannerze widoczne** — kontrast ≥4.5:1 (ciemne tło `background_color`, nie żółty-na-żółtym).
 - **X5 Jedna mapa** — na /kontakt/ dokładnie 1 widget mapy (Codex potrafi dodać natywny `google_maps` + shortcode).
 - **X6 CTA bez numerów** — żadna etykieta przycisku nie zawiera cyfr telefonu („Zadzwoń teraz", nie „Zadzwoń 880…").
 - **X7 Aktualności zaprojektowane** — /aktualnosci/ ma banner + kafelki `.kw-akt-card`, NIE goły „Archives"; `page_for_posts=0`.
 - **X8 Mobile (viewport 390px)** — hamburger brandowy (nie domyślny/różowy), menu czytelne, CTA pełnoszerokie, h1≈30px, gridy 1-kol; weryfikuj zrzutem + klik toggle.
-- **X9 Brak pustych widgetów `<style>`** — zabezpieczenia w globalnym Additional CSS, nie per-page HTML.
+- **X9 Brak pustych bloków stylu** — style projektu są w `native.css` albo globalnym CSS Elementora, nie jako osobne bloki na stronach.

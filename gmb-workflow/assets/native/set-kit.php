@@ -66,5 +66,5 @@ update_post_meta($kit_id, '_elementor_page_settings', $settings);
 delete_post_meta($kit_id, '_elementor_css');
 
 if (defined('WP_CLI')) {
-    WP_CLI::success('Ustawiono Elementor Kit dla child theme starter.');
+    WP_CLI::success('Ustawiono Elementor Kit dla natywnego startera.');
 }

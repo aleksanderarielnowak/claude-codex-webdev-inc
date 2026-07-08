@@ -5,7 +5,7 @@
 > ⚠️ **KOREKTY v2 (przebieg Kärcher 2026-06-17 — patrz `HARDENED-RECIPES.md`):**
 > 1. **Fetch (Faza 1):** ZAWSZE `-c sandbox_workspace_write.network_access=true` na CLI + twarda tożsamość + zakaz reużycia cudzych folderów + nowy slug (bez tego sieć jest cicho blokowana → Codex podpina dane innego klienta i raportuje `ready:true`).
 > 2. **Środowisko (Faza 2):** WP-CLI odpala **CLAUDE** (bootstrap §2), NIE Codex przez Site Shell — sandbox `codex exec` nie wykonuje php/wp. Od razu HTTPS (§3) + wyłącz eksperyment ikon/WP_DEBUG (§4).
-> 3. **Strony (Faza 4B):** podział **author/apply** — Codex autoruje `elementor/<slug>.json` z placeholderami, Claude aplikuje (`assets/postprocess-fixes.js` → `assets/apply-pages.php`). `--output-schema` jest STRICT (luźny → 400); przy luźnym kształcie zdejmij flagę i wymuś JSON w prompcie.
+> 3. **Strony (Faza 4B):** podział **author/apply** — Codex autoruje `build-<slug>-native.php` na `assets/native/native-lib.php` + `assets/native/native.css`, Claude aplikuje przez `wp eval-file`. `--output-schema` jest STRICT (luźny → 400); przy luźnym kształcie zdejmij flagę i wymuś JSON w prompcie.
 > 4. **Zawsze:** Aktualności (zaprojektowane, nie archiwum) + 3 wpisy; CTA bez numerów; mobile dopracowany; mapa = Google embed iframe (bez klucza).
 
 ---
@@ -39,7 +39,7 @@ ZWRÓĆ JSON: {ready, header_ok, footer_ok, screeny, issues}
 ## FAZA 4B — STRONY (z biblioteki sekcji, równolegle)
 > WYMÓG: użyj szablonów z section-library.md (placeholdery), kompozycja z compositions/{{BRANZA}}.json. Sekcje full-width, animacje opacity:1+reduced-motion, ikony realne, kontrast. Zdjęcia z media.json.
 ```
-ROLA: ręce. Dla każdej z 6 stron: wczytaj kompozycję → dla sekcji wczytaj szablon → wstrzyknij placeholdery (copy {{per-sekcja}}, ID zdjęć z media.json, kolory z Kit) → zapisz _elementor_data. Strony: {{LISTA}}. Kontakt: CF7 shortcode {{CF7}}. Mapa: widget WP Go Maps {{COORDS}}.
+ROLA: ręce. Dla każdej z 6 stron: utwórz `build-<slug>-native.php` na `assets/native/native-lib.php` → użyj natywnych widgetów Elementora → podstaw placeholdery (copy {{per-sekcja}}, ID zdjęć z media.json, kolory z Kit) → zapisz _elementor_data przez builder. Strony: {{LISTA}}. Kontakt: CF7 shortcode {{CF7}}. Mapa: widget WP Go Maps {{COORDS}}.
 COPY: brandowane PL, nie lorem; ceny realne-placeholder.
 RÓWNOLEGLE: per strona osobny scope.
 ZWRÓĆ JSON: {ready, strony:[{url,http,full_width,hero_img,animacje,zdjecia_ok}], cf7_on_kontakt, issues}

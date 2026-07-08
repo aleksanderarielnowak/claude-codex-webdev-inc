@@ -2,7 +2,8 @@
 /**
  * Plugin Name: KW Aktualności (shortcode kafelków wpisów)
  * Description: [kw_aktualnosci] — siatka kafelków najnowszych wpisów. Standard w workflow GMB→strona.
- * Wgraj do: <site>/app/public/wp-content/mu-plugins/kw-aktualnosci.php  (CSS .kw-akt-* w base-additions.css)
+ * Wgraj do: <site>/app/public/wp-content/mu-plugins/kw-aktualnosci.php.
+ * Style kafelków trzymaj w native.css projektu.
  */
 if (!defined('ABSPATH')) exit;
 

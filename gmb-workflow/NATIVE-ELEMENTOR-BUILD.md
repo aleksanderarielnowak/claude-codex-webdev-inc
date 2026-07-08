@@ -1,19 +1,18 @@
-# NATYWNY ELEMENTOR build — edytowalny tor Elementora
+# NATYWNY ELEMENTOR build — jedyny sposób budowy stron
 
-> Drugi tor buildu obok `HTML-SECTION-BUILD.md`. Strona nadal powstaje deterministycznie przez `_elementor_data`, ale z natywnych widgetów Elementora, więc klient może później edytować nagłówki, teksty, przyciski, obrazy, karty i galerie w panelu.
+Strona powstaje deterministycznie przez `_elementor_data`, ale wyłącznie z natywnych widgetów Elementora. Klient może później edytować nagłówki, teksty, przyciski, obrazy, karty i galerie w panelu.
 
 ## Filozofia
-| Tor | Kiedy | Plusy | Koszt |
+| Metoda | Kiedy | Plusy | Koszt |
 |---|---|---|---|
-| **NATYWNY Elementor** | Klient chce sam edytować stronę wizualnie w Elementorze | edycja w panelu, natywne widgety, mniej „kodu w kartach" | większy JSON, więcej pułapek, wymaga `native.css` |
-| **HTML-section** | Liczy się premium wygląd, szybkość i pełna kontrola kodem | deterministyczny layout, mniejszy drift, szybkie diffy | edycja treści głównie przez HTML/CSS |
+| **NATYWNY Elementor** | Zawsze w tym workflow | edycja w panelu, natywne widgety, HFE dla header/footer, CF7 dla formularzy | większy JSON, więcej pułapek, wymaga `native.css` |
 
-Domyślnie wybieraj **NATYWNY Elementor**, jeśli klient ma sam zarządzać treściami i układem. Wybieraj **HTML-section**, jeśli priorytetem jest szybki, bardzo kontrolowany build, a edycja przez klienta nie jest krytyczna.
+Nie ma alternatywnego toru w tym repo: strony budujemy przez natywne widgety Elementora i oficjalne dodatki widgetowe.
 
 ## Stack
 | Element | Rola |
 |---|---|
-| Hello Elementor + child theme | lekka baza, enqueue CSS/JS i fontów |
+| Hello Elementor | lekka baza pod Elementor |
 | Elementor | natywne widgety i edytor |
 | Header Footer Elementor (HFE) | header/footer bez hackowania stron |
 | Happy Addons / Essential Addons | dodatkowe widgety, gdy realnie potrzebne |
@@ -68,3 +67,4 @@ Minimalny snippet:
 | `assets/native/native-lib.php` | helpery `fm_native_*` |
 | `assets/native/native.css` | design-system `fm-*` |
 | `assets/native/build-page.native.example.php` | przykład buildera |
+| `assets/native/set-kit.php` | ustawienia globalnego Elementor Kit |

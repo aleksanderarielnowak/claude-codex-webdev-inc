@@ -92,61 +92,46 @@ wp elementor flush-css
 
 ---
 
-## 5. Podział author/apply — konwencja placeholderów + zapis meta
-Codex pisze `elementor/<slug>.json` (TABLICA `_elementor_data`) z tokenami:
-- zdjęcia: `"id":"__IMG_<slug>__","url":"__IMGURL_<slug>__"`
-- CF7: `"shortcode":"__CF7_SHORTCODE__"`, mapa: `"__MAP_SHORTCODE__"`
+## 5. Podział author/apply — natywny builder + zapis meta
+Codex pisze `build-<slug>-native.php` na `assets/native/native-lib.php` z tokenami:
+- zdjęcia: `__IMG_<slug>__` / `__IMGURL_<slug>__`
+- CF7: `__CF7_SHORTCODE__`, mapa: `__MAP_SHORTCODE__`
 
-Claude: `wp media import <png> --porcelain` → ID, `wp_get_attachment_url(ID)` → URL (https!), buduje `media.json`, podstawia tokeny (uwaga: token ID `"__IMG_x__"` z cudzysłowami → liczba bez cudzysłowów; shortcody JSON-escapuj). Zapis: `update_post_meta($id,'_elementor_data', wp_slash($json_string))` (Elementor trzyma to jako STRING, NIE tablicę) + `_elementor_edit_mode=builder`, `_elementor_template_type=wp-page`, `_wp_page_template=elementor_header_footer`; na końcu `Plugin::$instance->files_manager->clear_cache()`.
+Claude: `wp media import <png> --porcelain` → ID, `wp_get_attachment_url(ID)` → URL (https!), buduje `media.json`, podstawia tokeny i uruchamia `wp eval-file build-<slug>-native.php`. Builder zapisuje `update_post_meta($id,'_elementor_data', wp_slash(wp_json_encode($data, JSON_UNESCAPED_UNICODE)))`, `_elementor_edit_mode=builder`, `_elementor_template_type=wp-page`, `_wp_page_template=elementor_header_footer`; na końcu czyści CSS Elementora.
 **BOM:** PowerShell 5.1 `Set-Content -Encoding utf8` dodaje BOM → PHP `json_decode` zwraca null. Zapisuj `[IO.File]::WriteAllText($p,$json,(New-Object Text.UTF8Encoding($false)))` albo strip BOM w PHP: `preg_replace('/^\xEF\xBB\xBF/','',$raw)`.
 
-Gotowy szablon aplikatora: `assets/apply-pages.php`. Biblioteka deterministycznych fixów: `assets/postprocess-fixes.js`.
+---
+
+## 6. Reguły natywnego `_elementor_data`
+- **Ikony → Font Awesome 5** (Elementor 4.x ma FA5, nie 6!). Nazwy FA5: `fa-tools, fa-map-marker-alt, fa-tint, fa-undo, fa-tachometer-alt, fa-exclamation-triangle, fa-check-circle, fa-file-alt`.
+- **Hero full-bleed:** natywny kontener `content_width:full`, kontrolowany padding responsywny i tło przez klasę w `native.css`, jeśli Elementor nie emituje tła z meta.
+- **Przyciski:** używaj natywnego widgetu button; tekst CTA bez numerów telefonu, link `tel:` zostaje.
+- **Mapa:** preferuj widget WP Go Maps albo natywny shortcode/widget dodatku; unikaj duplikowania map na jednej stronie.
+- **Responsywne paddingi:** dodaj `padding_mobile`/`padding_tablet` w builderze (hero 72/58, banner 62/46, content 48/48 na mobile).
 
 ---
 
-## 6. Deterministyczne fixy `_elementor_data` (postprocess — taniej niż round-trip do Codexa)
-Uruchamiane przez Claude na plikach `elementor/*.json` PRZED apply (`assets/postprocess-fixes.js`):
-- **Ikony → Font Awesome 5** (Elementor 4.x ma FA5, nie 6!). Mapowanie po tytule; nazwy FA5: `fa-tools, fa-map-marker-alt, fa-tint, fa-undo, fa-tachometer-alt, fa-exclamation-triangle, fa-check-circle, fa-file-alt` (NIE `fa-screwdriver-wrench/location-dot/droplet/...` = FA6 → puste). Też martwe: nieistniejące `eicon-water/home/tools`.
-- **Hero full-bleed:** kontener `content_width:full` ALE usuń sztywne `width:1200` (to ono boksuje obraz) + `background_size:cover`.
-- **Przyciski na żółtym bannerze:** klucz tła to **`background_color`** (NIE `button_background_color` — taki klucz nie istnieje, działa tylko `button_text_color`, tło zostaje żółte z Kita = niewidoczne). Dla pewności klasa `kw-btn-dark` + CSS `!important`.
-- **Dedupe mapy:** Codex potrafi dodać natywny widget `google_maps` ORAZ shortcode → usuń natywny, zostaw shortcode iframe.
-- **Siatki kart równe:** patrz §7.
-- **CTA bez numerów:** tekst buttona `/zadzwo.*\d/` → „Zadzwoń teraz" (link `tel:` zostaje).
-- **Responsywne paddingi:** dodaj `padding_mobile`/`padding_tablet` (hero 72/58, banner 62/46, content 48/48 na mobile).
+## 7. Równe kafelki — buduj jako natywne kontenery
+Karty buduj przez helpery `fm_native_*` i klasy `fm-*` z `assets/native/native.css`. Równe wysokości, odstępy i stackowanie mobile mają wynikać z natywnej struktury kontenerów oraz CSS projektu, a nie z późniejszych poprawek.
 
 ---
 
-## 7. Równe kafelki — Elementor NIE renderuje `_css_classes` na KONTENERZE
-Klasa na widgetcie się renderuje (`kw-animated` działa), na kontenerze NIE (padding/inne ustawienia kontenera działają, sama klasa nie trafia do markupu). Dlatego CSS-grid przez klasę kontenera nie zadziała.
-**FIX:** użyj `_element_id` (CSS ID renderuje się dla kontenerów) i targetuj atrybutem:
-```css
-[id^="kwg2-"],[id^="kwg3-"],[id^="kwg4-"],[id^="kwg6-"]{display:grid !important;gap:24px;align-items:stretch}
-[id^="kwg3-"]{grid-template-columns:repeat(3,1fr)} [id^="kwg4-"]{grid-template-columns:repeat(4,1fr)}
-[id^="kwg6-"]{grid-template-columns:repeat(3,1fr)}
-@media(max-width:1024px){[id^="kwg3-"],[id^="kwg4-"],[id^="kwg6-"]{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:767px){[id^="kwg2-"],[id^="kwg3-"],[id^="kwg4-"],[id^="kwg6-"]{grid-template-columns:1fr}}
-[id^="kwg"]>*{height:100%} /* grid auto-równa wysokości wierszy */
-```
-postprocess oznacza kontener-siatkę (>=2 dzieci, większość icon-box) `_element_id="kwg<N>-<licznik>"`. (Alternatywa: budować od razu jako natywny grid container `container_type:grid`.)
-
----
-
-## 8. CSS globalny zamiast per-page (Additional CSS)
-Codex wstawiał per-stronę widget HTML z `<style>` (zabezpieczenie opacity/reduced-motion) → 6× duplikat + puste bloki w edytorze. Przenieś RAZ do Additional CSS: `wp_update_custom_css_post($css)`; usuń widgety HTML ze `<style>`. Pełny bazowy CSS (grid kart, CF7, mobile header/menu, kafelki Aktualności, zabezpieczenia): `assets/base-additions.css`.
+## 8. CSS projektu
+Style projektu trzymaj w `assets/native/native.css` albo w globalnym CSS Elementora. Animacje muszą mieć bazowo `opacity:1`, `prefers-reduced-motion` i brak layout-shiftów.
 
 ---
 
 ## 9. Mapa = Google embed iframe bez klucza
 WP Go Maps domyślnie silnik Google → `ApiProjectMapError` bez klucza. Najpewniej: iframe (renderuje się w przeglądarce usera; w headless Codexa NIE — bot — nie weryfikuj mapy zrzutem):
 ```
-[shortcode/HTML]: <iframe src="https://www.google.com/maps?q=<ADRES URLENC>&output=embed" style="border:0;width:100%;height:430px"></iframe>
+Użyj widgetu mapy z WP Go Maps / dodatku Elementora albo natywnego shortcode'u mapy, jeśli widget tego wymaga. Weryfikuj na froncie u usera, bo embedy map bywają puste w headless.
 ```
 
-## 10. Header jako 1 widget HTML — nawigacja edytowana w HTML
-Jeśli header HFE to pojedynczy widget HTML ze sztywnym `<ul>` (nie widget Nav Menu), pozycje menu dodajesz EDYTUJĄC ten HTML (post HFE) — edycja menu WP nic nie zmienia. **Lepszy wzorzec na przyszłość:** budować nagłówek z widgetem „Nav Menu" wpiętym w menu WP → nav-edyty propagują się same.
+## 10. Header przez HFE i Nav Menu
+Header buduj jako szablon HFE z logo, widgetem „Nav Menu" podpiętym do menu WP i natywnym CTA. Edycja menu WP ma propagować się do nagłówka bez ręcznej edycji szablonu.
 
 ## 11. Aktualności = ZAPROJEKTOWANE (standard), nie archiwum motywu
-`page_for_posts` daje gołe „Archives" + surowe linki. Zamiast tego: mu-plugin z shortcode `[kw_aktualnosci]` (siatka kafelków wpisów) + strona Elementor (żółty banner + shortcode), `page_for_posts=0`. Pliki: `assets/mu-kw-aktualnosci.php` + CSS `.kw-akt-*` w `assets/base-additions.css`.
+`page_for_posts` daje gołe „Archives" + surowe linki. Zamiast tego: mu-plugin z shortcode `[kw_aktualnosci]` (siatka kafelków wpisów) + strona Elementor (banner + shortcode), `page_for_posts=0`. Plik: `assets/mu-kw-aktualnosci.php`; style kafelków trzymaj w `assets/native/native.css` projektu.
 
 ## 12. Mobile = standard (zajebiście, nie afterthought)
 - Brandowy hamburger (nie domyślny — potrafi wyjść różowy; nadpisz `!important`).

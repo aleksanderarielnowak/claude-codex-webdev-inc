@@ -49,7 +49,7 @@
 ```json
 { "home": ["hero","trust-bar","features-cards","menu-list","about-teaser","reviews","gallery-grid","cta-map"] }
 ```
-Build strony = wybierz kompozycję → dla każdej sekcji wczytaj szablon → wstrzyknij placeholdery (copy z research + ID zdjęć z media.json) → zapisz `_elementor_data`. Codex robi to deterministycznie, równolegle per strona.
+Build strony = wybierz kompozycję → dla każdej sekcji użyj helperów z `assets/native/native-lib.php` → podstaw placeholdery (copy z research + ID zdjęć z media.json) → zapisz `_elementor_data`. Codex robi to deterministycznie, równolegle per strona.
 
 ## Parametryzacja — źródła wartości
 - Teksty/copy → `research.json` + brief + copy wygenerowane per sekcja.
