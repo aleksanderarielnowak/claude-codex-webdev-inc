@@ -60,6 +60,7 @@ INPUT: **jedno lub więcej dowolnych źródeł**:
 - Skille WP do oparcia ops: `wp-wpcli-and-ops`, `wp-playground`, `blueprint`, `wp-rest-api`.
 
 ### Faza 3 — DESIGN (Claude planuje)
+- **Decyzja o stacku per klient:** przed projektowaniem sekcji przeczytaj `gmb-workflow/STACK-DECISION-GUIDE.md`, wybierz builder/motyw/plugin stack wedlug sygnalow z briefu i zapisz w `design-spec.json`: wybrany stos, dlaczego, oraz odrzucony fallback. Claude ma autonomie wyboru, ale zawsze komunikuje userowi decyzje i uzasadnienie. Twarda regula dotyczy kazdego stosu: sekcje/przyciski/kontenery/tla powstaja przez natywne elementy buildera albo dedykowany plugin/widget, nie przez recznie wklejane gotowe bloki kodu.
 - **Struktura: 5-10 podstron GOTOWYCH (Claude decyduje ile) — MAKSYMALNIE jakościowe i UNIKALNE, dobrane pod TYP biznesu** (z Fazy 1). Mało podstron = każda dopracowana, nie generyczna. Typ biznesu MA przełożenie na design.
 - **Strony ofertowe** wolno tworzyć jako **placeholder (pusty publish) wpięty w nawigację** — treść dojdzie później.
 - **ZAWSZE „Aktualności" (blog) + 3 wpisy z samym tytułem jako placeholder**, wpięte w menu. Strona Aktualności = ZAPROJEKTOWANA (banner + kafelki wpisów przez mu-plugin `[kw_aktualnosci]`), `page_for_posts=0` — NIE gołe archiwum motywu. Patrz `HARDENED-RECIPES.md` §11.

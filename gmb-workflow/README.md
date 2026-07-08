@@ -9,6 +9,7 @@ Operacyjny zestaw dla pipeline'u: dowolne źródło o firmie (strona WWW, social
 | **`START-HERE.md`** | Jak odpalić przebieg + Twój 1 krok w Local | przed startem |
 | **`phase-specs.md`** | Gotowe Task Specy per faza (Research/Środowisko/Fundament/Strony/SEO/QA) | podczas przebiegu |
 | **`business-type-playbooks.md`** | Struktura podstron + design + SEO per branża | Faza 1+3 |
+| **`STACK-DECISION-GUIDE.md`** | Decyzja o builderze/motywie/pluginach per klient, z uzasadnieniem i twarda regula natywnych widgetow | Faza 3 |
 | **`section-library.md`** | Sparametryzowane szablony sekcji + kompozycje (przyspieszenie buildu) | Faza 4B |
 | **`NATIVE-ELEMENTOR-BUILD.md`** | Receptura buildu: natywne widgety Elementora + `native.css` | Faza 4B |
 | **`wp-base-blueprint.json`** | Bazowy stos wtyczek/motywu (blueprint/clone/WP-CLI) | Faza 2 |
