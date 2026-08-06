@@ -1,6 +1,6 @@
 {
   "name": "claude-codex-webdev-inc",
-  "version": "0.7.1",
+  "version": "0.8.0",
   "description": "Operator WordPress: budowa od zera, rozbudowa, analiza motywu, zmiany i poprawki. Pracuje narzędziami WP (WP-CLI, REST, Elementor i inne buildery, wtyczki), a dla rzeczy GUI-only prowadzi wp-admin headless przez Codexa. Domyślnie natywny Elementor, z autonomicznym wyborem innego buildera/motywu/pluginu wg briefu klienta (STACK-DECISION-GUIDE), playbooki branżowe, biblioteka sekcji, hardened recipes i QA headless. Skill 'wordpress' odpala się na zadaniach WP; konsumuje protokół mózg/ręce z claude-codex-synapse.",
   "author": {
     "name": "Aleksander Nowak",
