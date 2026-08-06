@@ -6,6 +6,19 @@ description: Use for ANY WordPress work regardless of builder/theme — build fr
 
 Jesteś **operatorem WordPressa**: budujesz OD ZERA, rozbudowujesz, analizujesz motyw, zmieniasz i naprawiasz istniejące strony. Pracujesz **narzędziami samego WordPressa** (WP-CLI, REST, Elementor, wtyczki) — nie hackujesz, gdy istnieje czyste API.
 
+## 🔴 METODA NADRZĘDNA — BUDUJESZ SEKCJAMI. Przeczytaj `references/METODA-BUDOWY-SEKCJAMI.md` PRZED każdą budową i rozbudową.
+
+Stoi ponad wyborem stacku, buildera i motywu. Skrót:
+
+1. **Plan designu i lista sekcji w kolejności** — zanim cokolwiek powstanie.
+2. **Budujesz sekcja po sekcji, do końca listy.** Weryfikacja po każdej, nie na końcu.
+3. **Każda sekcja = własny blok/kontener buildera** — klikalny i edytowalny przez usera.
+4. **Drabina wykonania:** sam builder → builder + wtyczka → blok HTML dla fragmentu → blok HTML na całą sekcję (wyjątek do udokumentowania). Schodzisz niżej dopiero, gdy szczebel wyżej naprawdę nie działa.
+5. **Braki buildera nadrabiasz** motywem potomnym, wtyczkami i dodatkowym CSS — jako uzupełnienie komponentów, nigdy jako ich zamiennik.
+6. **Jeden właściciel stylu na właściwość** — albo builder, albo arkusz. Podwójne właścicielstwo = hybryda, której nikt nie kontroluje.
+
+**Sygnał ostrzegawczy:** jeśli piszesz sekcję jako tekst markupu do wrzucenia do bazy — robisz to źle, niezależnie od tego, czy ten tekst nazywa się `<div>` czy `core/columns`.
+
 ## Kompozycja z Synapse (mózg/ręce)
 Ten skill KONSUMUJE protokół `codex-collab` z **claude-codex-synapse**. Jeśli Synapse jest zainstalowany:
 - ciężką produkcję (autorstwo `_elementor_data`/PHP/JSON, fetch/research, generowanie obrazów, headless przeglądarka, bulk) **deleguj przez `/codex`** (author→apply, kontrakt JSON, `ready`/`issues`);
@@ -47,7 +60,7 @@ Zmiany „w bazie" (Kanał 1: `wp_options`, meta, `_elementor_data`) rób autono
 ## Wybór stacku (dla budowy i rozbudowy)
 - **Domyślny tor: NATYWNY Elementor** — widgety Elementora, HFE, Happy/Essential Addons, helpery `fm_native_*`. Reference: `references/gmb-workflow/NATIVE-ELEMENTOR-BUILD.md`, assety `references/gmb-workflow/assets/native/`.
 - **Szerszy repertuar:** gdy brief klienta daje sygnał specjalistyczny (sklep, rezerwacje, kurs, nieruchomości, restauracja z zamówieniami, wymóg performance/FSE itd.), Claude ma pełną autonomię wyboru innego buildera/motywu/wtyczki (Bricks, Divi, Breakdance, Oxygen, Blocksy, GeneratePress, Kadence, natywny Site Editor, WooCommerce i wtyczki branżowe) — zawsze z uzasadnieniem dla usera. Pełna tabela decyzyjna: `references/gmb-workflow/STACK-DECISION-GUIDE.md`.
-- **Twarda zasada niezależna od wybranego stosu:** sekcje, przyciski, kontenery, karty, tła buduje się ZAWSZE przez natywny edytor/builder albo dedykowany widget/plugin — NIGDY przez ręcznie wklejany HTML/CSS jako skrót. Zawsze dokumentuj wybrany stos + uzasadnienie w handoffie — strona ma być edytowalna przez mid-poziom SEOwca.
+- **Twarda zasada niezależna od wybranego stosu:** sekcje, przyciski, kontenery, karty, tła buduje się przez natywny edytor/builder albo dedykowany widget/plugin. Ręczny HTML to szczebel 3–4 drabiny z `references/METODA-BUDOWY-SEKCJAMI.md` — wolno go użyć, gdy builder i wtyczki naprawdę nie sięgają, i wtedy trzeba go udokumentować z uzasadnieniem. Nigdy jako skrót ani domyślny tryb pracy. Zawsze dokumentuj wybrany stos + uzasadnienie w handoffie — strona ma być edytowalna przez mid-poziom SEOwca.
 
 ## Zasady jakości (twarde)
 - **Projektuj, nie wypełniaj:** research to surowiec, nie projekt. PRZED buildem zapisz krótki design-concept (wielki pomysł/motyw · kierunek wizualny · 2–3 sekcje-sygnaturki pod branżę · świadomy ruch) i myśl o **UX/konwersji**. Sekcje, przejścia i animacje rób **ze smakiem i tematycznie**, nie generic-template. Poświęć budżet myślenia na to, jak strona ma wyglądać i dlaczego. Patrz `references/design-craft.md`.
@@ -57,6 +70,7 @@ Zmiany „w bazie" (Kanał 1: `wp_options`, meta, `_elementor_data`) rób autono
 - **Środowisko**: WP-CLI odpala **Claude** (sandbox Windows/Local nie uruchamia php.exe pod Codexem) — Codex AUTORUJE pliki, Claude APLIKUJE. Patrz HARDENED §1.
 
 ## Reference (poziom 3 — wczytuj dopiero, gdy dana faza tego wymaga)
+- `references/METODA-BUDOWY-SEKCJAMI.md` — **metoda nadrzędna: budowa sekcjami, drabina wykonania, własność stylu, bramki zaliczenia** (czytaj PRZED budową i rozbudową, nie „gdy faza wymaga")
 - `references/GMB-TO-SITE-WORKFLOW.md` — master prompt pipeline'u od zera
 - `references/gmb-workflow/phase-specs.md` — specy 5 faz (wejście/wyjście/narzędzie/akceptacja)
 - `references/gmb-workflow/business-type-playbooks.md` — struktura podstron per branża
